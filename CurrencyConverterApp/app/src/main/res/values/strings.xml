@@ -1,0 +1,4 @@
+<resources>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="app_name">CurrencyConverterApp</string>
+</resources>
