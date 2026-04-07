@@ -2,4 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Dark Theme Palette -->
+    <color name="dark_bg">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <color name="dark_primary">#D0BCFF</color>
+    <color name="dark_secondary">#CCC2DC</color>
+    <color name="dark_on_surface">#E6E1E5</color>
+    <color name="dark_accent">#381E72</color>
+
+    <color name="primary">#D0BCFF</color>
+    <color name="secondary">#CCC2DC</color>
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="on_primary">#381E72</color>
+    <color name="on_secondary">#332D41</color>
+    <color name="error">#F2B8B5</color>
 </resources>
