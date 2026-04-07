@@ -1,7 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme for Dark Mode. -->
     <style name="Base.Theme.CurrencyConverterApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">#D0BCFF</item>
+        <item name="colorSecondary">#CCC2DC</item>
+        <item name="android:windowBackground">#1C1B1F</item>
+        <item name="colorSurface">#2B2930</item>
+        <item name="colorOnSurface">#E6E1E5</item>
     </style>
 </resources>
