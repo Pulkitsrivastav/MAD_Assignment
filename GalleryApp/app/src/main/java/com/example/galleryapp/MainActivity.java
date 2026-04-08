@@ -6,24 +6,30 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.Button;
-import android.widget.GridView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button cameraBtn;
-    GridView gridView;
+    ExtendedFloatingActionButton cameraBtn;
+    RecyclerView recyclerView;
+    LinearLayout emptyView;
+    Toolbar toolbar;
 
     static final int REQUEST_IMAGE = 1;
 
-    public static ArrayList<Bitmap> imageList = new ArrayList<>();
-
+    public static ArrayList<ImageModel> imageList = new ArrayList<>();
     ImageAdapter adapter;
 
     @Override
@@ -31,29 +37,50 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         cameraBtn = findViewById(R.id.cameraBtn);
-        gridView = findViewById(R.id.gridView);
+        recyclerView = findViewById(R.id.recyclerView);
+        emptyView = findViewById(R.id.emptyView);
 
         adapter = new ImageAdapter(this, imageList);
-        gridView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(adapter);
 
-        // Permission
+        updateEmptyView();
+
+        // Camera Permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA}, 100);
         }
 
+        // Open Camera
         cameraBtn.setOnClickListener(v -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, REQUEST_IMAGE);
         });
+    }
 
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra("index", position);
-            startActivity(intent);
-        });
+    private void updateEmptyView() {
+        if (imageList.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+            updateEmptyView();
+        }
     }
 
     @Override
@@ -62,8 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageList.add(photo);
-            adapter.notifyDataSetChanged();
+            if (photo != null) {
+                imageList.add(new ImageModel(photo));
+                adapter.notifyDataSetChanged();
+                updateEmptyView();
+            }
         }
     }
 }

@@ -1,31 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- CAMERA PERMISSION -->
     <uses-permission android:name="android.permission.CAMERA"/>
-
-    <!-- OPTIONAL FIX (removes warning) -->
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
 
     <application
         android:allowBackup="true"
-        android:label="GalleryApp"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:label="GalleryApp"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.GalleryApp">
 
-        <!-- Detail Screen -->
-        <activity android:name=".DetailActivity"/>
-
-        <!-- Main Screen -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">   <!-- IMPORTANT FIX -->
-
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
 
     </application>
 
